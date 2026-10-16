@@ -12,6 +12,21 @@ from utils import make_wordcloud, compute_aspects, translate_to_en
 
 st.set_page_config(page_title="Insightify Dashboard", layout="wide")
 
+
+@st.cache_resource(show_spinner="Loading sentiment models (first run downloads them)...")
+def load_sentiment_model(batch_size: int) -> SentimentModel:
+    """Load the models once per session instead of on every Streamlit rerun."""
+    return SentimentModel(batch_size=batch_size)
+
+
+st.sidebar.header("Pipeline settings")
+max_pages = st.sidebar.number_input(
+    "Max review pages to scrape", min_value=1, max_value=500, value=10, step=1
+)
+batch_size = st.sidebar.number_input(
+    "Inference batch size", min_value=1, max_value=128, value=16, step=1
+)
+
 st.markdown("""
 <style>
 
@@ -202,7 +217,7 @@ elif choice == "Enter AliExpress URL":
         try:
             scraper = AliExpressReviewScraper()
             pid = scraper.extract_product_id(url)
-            df_raw = scraper.scrape_all(pid)
+            df_raw = scraper.scrape_all(pid, max_pages_cap=int(max_pages))
             st.success(f"Scraped {len(df_raw)} reviews for product {pid}.")
             df_raw.to_csv(f"data/scraped_{pid}.csv", index=False)
         except Exception as e:
@@ -225,7 +240,7 @@ if df_raw is not None and not df_raw.empty:
         st.stop()
 
     tp = TextPreprocessor()
-    sm = SentimentModel()
+    sm = load_sentiment_model(int(batch_size))
 
     # PREPROCESSING
     with st.container():
@@ -287,23 +302,23 @@ if df_raw is not None and not df_raw.empty:
 
     # TAB 3
     with tabs[idx]:
-     st.subheader("Word Clouds (Translated to English)")
+        st.subheader("Word Clouds (Translated to English)")
 
-     col1, col2 = st.columns(2)
+        col1, col2 = st.columns(2)
 
-     with col1:
-        st.markdown("### Positive Reviews")
-        make_wordcloud(
-            df[df["sentiment_3way"]=="POSITIVE"]["translated_text"],
-            "Positive Reviews"
-        )
+        with col1:
+            st.markdown("### Positive Reviews")
+            make_wordcloud(
+                df[df["sentiment_3way"] == "POSITIVE"]["translated_text"],
+                "Positive Reviews",
+            )
 
-    with col2:
-        st.markdown("### Negative Reviews")
-        make_wordcloud(
-            df[df["sentiment_3way"]=="NEGATIVE"]["translated_text"],
-            "Negative Reviews"
-        )
+        with col2:
+            st.markdown("### Negative Reviews")
+            make_wordcloud(
+                df[df["sentiment_3way"] == "NEGATIVE"]["translated_text"],
+                "Negative Reviews",
+            )
 
     idx += 1
 
@@ -333,6 +348,3 @@ st.markdown("""
     Team Insightify
 </div>
 """, unsafe_allow_html=True)
-
-
-

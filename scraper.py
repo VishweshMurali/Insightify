@@ -1,9 +1,12 @@
 import re
 import time
 import gc
+import logging
 import requests
 import pandas as pd
 from typing import Optional, Dict, Any
+
+log = logging.getLogger(__name__)
 
 # Scrape ALL reviews for an AliExpress product using AliExpress feedback API.
 class AliExpressReviewScraper:
@@ -30,7 +33,7 @@ class AliExpressReviewScraper:
         raise ValueError("Could not extract product ID from URL")
 
     def _request(self, params: Dict[str, Any]):
-        for attempt in range(self.retries):
+        for attempt in range(1, self.retries + 1):
             try:
                 r = self.sess.get(
                     self.base_url,
@@ -40,8 +43,9 @@ class AliExpressReviewScraper:
                 )
                 if r.status_code == 200:
                     return r.json()
-            except Exception:
-                pass
+                log.warning("Attempt %d/%d: HTTP %s", attempt, self.retries, r.status_code)
+            except (requests.RequestException, ValueError) as exc:
+                log.warning("Attempt %d/%d failed: %s", attempt, self.retries, exc)
             time.sleep(self.pause_s)
         return None
 
@@ -97,8 +101,3 @@ class AliExpressReviewScraper:
             page += 1
 
         return pd.DataFrame(all_rows)
-
-
-
-
-
