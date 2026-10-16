@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+venv/
+.venv/
+.env
+
+# Data written by the app at runtime
+data/uploaded_*.csv
+data/scraped_*.csv
+sentiment_results_*.csv
+summary_*.csv

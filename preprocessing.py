@@ -2,9 +2,6 @@
 
 import re
 import pandas as pd
-from langdetect import detect, DetectorFactory
-
-DetectorFactory.seed = 0
 
 
 SUPPORTED_LANGS = {"en", "es", "pt", "fr", "de", "nl", "it"}
@@ -55,6 +52,9 @@ def _looks_like_text_column(series):
     """Reject date/id/numeric columns and keep only text-like columns."""
     s = series.astype(str)
 
+    if len(s) == 0:
+        return False
+
     if (s.str.fullmatch(r"[0-9\-\:\/ ]+").sum() / len(s)) > 0.5:
         return False
 
@@ -82,9 +82,13 @@ def _basic_clean(t: str) -> str:
 def _detect_lang(t: str) -> str:
     if not t or len(t.split()) < 2:
         return "unknown"
+    # Imported lazily so the rest of this module works without langdetect installed.
+    from langdetect import DetectorFactory, detect
+
+    DetectorFactory.seed = 0  # deterministic results
     try:
         return detect(t)
-    except:
+    except Exception:  # langdetect raises LangDetectException on undetectable text
         return "unknown"
 
 
@@ -101,11 +105,3 @@ class TextPreprocessor:
 
         df = df[df["processed_text"].str.len() > 0].reset_index(drop=True)
         return df
-
-
-
-
-
-
-
-

@@ -1,0 +1,31 @@
+review_id,buyer_country,rating,review_date,review_text
+demo-001,US,5,2024-03-01,Works perfectly and arrived earlier than expected. Great battery life.
+demo-002,US,5,2024-03-02,Excellent quality for the price. Very happy with this purchase.
+demo-003,US,4,2024-03-03,"Good product, easy to use. Packaging was a bit damaged but item is fine."
+demo-004,US,4,2024-03-04,Nice color and fits well. Would buy again.
+demo-005,US,3,2024-03-05,It is okay. Does the job but nothing special.
+demo-006,US,3,2024-03-06,"Average quality, shipping took a while."
+demo-007,US,2,2024-03-07,Battery drains quickly and the screen scratches easily.
+demo-008,US,1,2024-03-08,"Stopped working after two days. Terrible quality, do not buy."
+demo-009,US,1,2024-03-09,Completely different from the photos. Poor quality and slow shipping.
+demo-010,US,2,2024-03-10,Too small and the material feels cheap.
+demo-011,GB,5,2024-03-11,"Brilliant value, exactly as described and fast delivery."
+demo-012,GB,4,2024-03-12,"Happy with it, battery lasts all day."
+demo-013,GB,2,2024-03-13,Disappointed. The charger broke within a week.
+demo-014,GB,1,2024-03-14,Awful. Arrived broken and the seller never replied.
+demo-015,ES,5,2024-03-15,"Excelente producto, llegó muy rápido y funciona perfectamente."
+demo-016,ES,4,2024-03-16,"Muy buena calidad por el precio, estoy contento."
+demo-017,ES,3,2024-03-17,"Está bien, pero esperaba algo mejor."
+demo-018,ES,1,2024-03-18,"Muy mala calidad, dejó de funcionar a los dos días."
+demo-019,ES,2,2024-03-19,La batería dura poco y el envío fue lentísimo.
+demo-020,BR,5,2024-03-20,"Produto ótimo, chegou antes do prazo e muito bem embalado."
+demo-021,BR,4,2024-03-21,"Gostei bastante, boa qualidade e cor bonita."
+demo-022,BR,1,2024-03-22,"Péssimo, veio quebrado e o vendedor não respondeu."
+demo-023,BR,2,2024-03-23,"Qualidade ruim, o material parece frágil."
+demo-024,FR,5,2024-03-24,"Très bon produit, livraison rapide et conforme à la description."
+demo-025,FR,3,2024-03-25,"Correct sans plus, la qualité est moyenne."
+demo-026,FR,1,2024-03-26,"Très déçu, ça ne marche plus après une semaine."
+demo-027,DE,5,2024-03-27,"Sehr gute Qualität und schnelle Lieferung, sehr zufrieden."
+demo-028,DE,2,2024-03-28,Der Akku hält nicht lange und die Verarbeitung ist schlecht.
+demo-029,IT,4,2024-03-29,"Prodotto molto buono, consegna veloce e prezzo giusto."
+demo-030,IT,1,2024-03-30,"Pessima qualità, si è rotto subito e nessun rimborso."
